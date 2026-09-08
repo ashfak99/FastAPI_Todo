@@ -11,9 +11,7 @@ def create_todo(title : str, description : str):
 
     connection.commit()
     todo_id = cursor.lastrowid
-
     connection.close()
-
     return todo_id
 
 def get_todo(id:int):
@@ -26,9 +24,7 @@ def get_todo(id:int):
     )
 
     connection.commit()
-
     todo=cursor.fetchone()
-
     connection.close()
     return todo
 
@@ -42,8 +38,34 @@ def get_todos():
         """
     )
     connection.commit()
-
     todos=cursor.fetchall()
     connection.close()
     return todos
 
+def delete_todos():
+    connection = get_connection()
+
+    cursor = connection.execute(
+        """
+        DELETE FROM todos
+        """
+    )
+    connection.commit()
+    result = cursor.rowcount
+    connection.close()
+    return result
+
+
+def delete_todo(id:int):
+    connection = get_connection()
+
+    cursor=connection.execute(
+        """
+            DELETE FROM todos WHERE id=?
+        """,(id,)
+    )
+
+    connection.commit()
+    result = cursor.rowcount
+    connection.close()
+    return result

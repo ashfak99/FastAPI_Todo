@@ -1,4 +1,4 @@
-from app.repository.todo_repository import create_todo, get_todo, get_todos
+from app.repository.todo_repository import create_todo, get_todo, get_todos, delete_todo, delete_todos
 from app.exception.todo_exception import TodoNotFoundError
 
 def create_todo_services(todo):
@@ -29,3 +29,27 @@ def get_todo_services(todo_id):
         "description" : todo["description"],
         "completed" : todo["completed"]
     }
+
+def get_todos_services():
+    todos=get_todos()
+
+    if todos is None:
+        raise TodoNotFoundError("Todo is empty")
+
+    return todos
+
+def delete_todos_services():
+    row_count = delete_todos()
+
+    if row_count==0:
+        raise TodoNotFoundError("Todo is empty")
+
+    return row_count
+
+def delete_todo_serices(id:int):
+    row_count = delete_todo(id)
+
+    if row_count == 0:
+        raise TodoNotFoundError("Todo nor found")
+
+    return row_count
