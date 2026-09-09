@@ -16,8 +16,8 @@ def delete_todo_handler(todo_id):
 def delete_todos_handler():
     return delete_todos_services()
 
-def update_todo_handler(todo,todo_id, completed):
-    return update_todo_services(todo,todo_id,completed)
+def update_todo_handler(todo,todo_id):
+    return update_todo_services(todo,todo_id)
 
 def patch_todo_handler(todo_id,data):
     return patch_todo_services(todo_id,data)

@@ -54,11 +54,11 @@ def delete_todo_serices(id:int):
 
     return row_count
 
-def update_todo_services(todo,todo_id,completed):
+def update_todo_services(todo,todo_id):
     if len(todo.title.strip())<3:
         raise ValueError("Todo title must be at least 3 character")
 
-    todo = update_todo(todo_id, todo.title, todo.description, completed)
+    todo = update_todo(todo_id, todo.title, todo.description, todo.completed)
 
     if todo==0:
         raise TodoNotFoundError
