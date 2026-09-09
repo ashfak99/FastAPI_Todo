@@ -69,3 +69,34 @@ def delete_todo(id:int):
     result = cursor.rowcount
     connection.close()
     return result
+
+def update_todo(todo_id : int , title : str , description : str , completed : bool):
+    connection = get_connection()
+
+    cursor=connection.execute(
+        """
+        UPDATE todos SET title=?, description = ?, completed=? WHERE id=?
+        """,(title,description,completed,todo_id)
+    )
+
+    connection.commit()
+
+    connection.close()
+    return cursor.rowcount
+
+def patch_todo(todo_id, data):
+    fields=[]
+    values=[]
+
+    for key,value in data.items():
+        fields.append(f"{key}=?")
+        values.append(value)
+
+    values.append(todo_id)
+
+    connection = get_connection()
+    cursor=connection.execute(f"UPDATE todos SET {','.join(fields)} WHERE id=?",values)
+
+    connection.commit()
+    connection.close()
+    return cursor.rowcount

@@ -1,4 +1,4 @@
-from app.repository.todo_repository import create_todo, get_todo, get_todos, delete_todo, delete_todos
+from app.repository.todo_repository import create_todo, get_todo, get_todos, delete_todo, delete_todos, update_todo, patch_todo
 from app.exception.todo_exception import TodoNotFoundError
 
 def create_todo_services(todo):
@@ -53,3 +53,24 @@ def delete_todo_serices(id:int):
         raise TodoNotFoundError("Todo nor found")
 
     return row_count
+
+def update_todo_services(todo,todo_id,completed):
+    if len(todo.title.strip())<3:
+        raise ValueError("Todo title must be at least 3 character")
+
+    todo = update_todo(todo_id, todo.title, todo.description, completed)
+
+    if todo==0:
+        raise TodoNotFoundError
+
+    return {
+        "message" : "Todo Update Successfully"
+    }  
+
+def patch_todo_services(todo_id,data):
+    result=patch_todo(todo_id,data)
+
+    if result==0:
+        raise TodoNotFoundError
+
+    return {"message":"Todo Update Successfully"}
